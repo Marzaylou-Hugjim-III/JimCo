@@ -111,3 +111,5 @@ Describe at least:
     - After every major feature is done.
   - How will you communicate that it’s time to merge?
     - Slack/Remo
+### Whiteboard Brainstorming
+[Whiteboard](https://www.figma.com/file/glzcU86NqxaDNOcjMC7upr/Untitled?node-id=0%3A1)
