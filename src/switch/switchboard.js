@@ -1,14 +1,14 @@
-const { io } = require("socket.io-client");
-const socket = io("ws://localhost:3500");
+//const { io } = require("socket.io-client");
+//const socket = io("ws://localhost:3500");
 const routeMap = new Map();
 
-socket.on("pong", (message) => {
-  console.log("message: ", message);
+// socket.on("pong", (message) => {
+//   console.log("message: ", message);
 
-  switchboard(message);
-});
+//   switchboard(message);
+// });
 
-function switchboard(message) {
+export function switchboard(message) {
   const route = routeMap.get(message.clientRoute);
   if (route) {
     route.invoke(message);
