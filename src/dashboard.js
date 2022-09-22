@@ -13,7 +13,7 @@ class Dashboard extends React.Component {
         <h1>dashboard Test</h1>
         <Card style={{ width: "18rem" }} border="primary">
           <Card.Body>
-            <Card.Title>Leader Board</Card.Title>
+            <Card.Title>Lobby</Card.Title>
             <Card.Text>
               Some quick example text to build on the card title and make up the
               bulk of the card's content.

@@ -4,15 +4,35 @@ import Aboutus from "./aboutus";
 import Dashboard from "./dashboard";
 import Gameboard from "./gameboard";
 import Header from "./header";
+import "./styling.css";
+
+const { io } = require("socket.io-client");
+const socket = io("ws://localhost:3500");
+//const routeMap = new Map();
+const { switchboard } = require("./switch/switchboard");
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      coins: "",
+    };
+  }
+  componentDidMount() {
+    socket.on("pong", (message) => {
+      console.log("message: ", message);
+      switchboard(message);
+    });
+
+    socket.emit("ping", { "route": "example", "id": socket.id, "intendedReciever": "sender", "payload": {"stuff": "pog"}});
+  }
   render() {
     return (
       <>
         <Router>
           <Header />
           <Routes>
-            <Route exact path="/" element={<Dashboard />}></Route>
+            <Route exact path="/" element={<Dashboard />} />
 
             <Route exact path="/gameboard" element={<Gameboard />} />
 
