@@ -17,14 +17,13 @@ class App extends React.Component {
     this.state = {
       coins: "",
     };
-  }
-  componentDidMount() {
     socket.on("pong", (message) => {
       console.log("message: ", message);
       switchboard(message);
     });
-
-    socket.emit("ping", { "route": "example", "id": socket.id, "intendedReciever": "sender", "payload": {"stuff": "pog"}});
+  }
+  componentDidMount() {
+    socket.emit("ping", { "route": "example", "id": "test", "intendedReciever": "sender", "payload": { "stuff": "pog" } });
   }
   render() {
     return (
