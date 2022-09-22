@@ -43,4 +43,5 @@ class App extends React.Component {
   }
 }
 
+export { socket }
 export default App;
