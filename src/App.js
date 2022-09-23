@@ -4,6 +4,7 @@ import Aboutus from "./aboutus";
 import Dashboard from "./dashboard";
 import Gameboard from "./gameboard";
 import Header from "./header";
+import Help from "./help";
 import "./styling.css";
 
 const { io } = require("socket.io-client");
@@ -36,6 +37,8 @@ class App extends React.Component {
             <Route exact path="/gameboard" element={<Gameboard />} />
 
             <Route exact path="/aboutus" element={<Aboutus />} />
+
+            <Route exact path ="/help" element={<Help />} />
           </Routes>
         </Router>
       </>

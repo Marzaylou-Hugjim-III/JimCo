@@ -30,7 +30,7 @@ class Header extends React.Component {
                   </Link>
                 </NavItem>
                 <NavItem>
-                  <Link to="#" className="nav-link">
+                  <Link to="/help" className="nav-link">
                     Help
                   </Link>
                 </NavItem>
