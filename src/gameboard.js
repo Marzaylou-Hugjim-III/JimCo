@@ -7,8 +7,16 @@ import { socket } from "./App";
 
 class Gameboard extends React.Component {
 
+  joinLobby() {
+    socket.emit("ping", { "route": "joinLobby", "id": socket.id, "intendedReciever": "sender", "payload": {} });
+  }
+
+  startGame() {
+    socket.emit("ping", { "route": "startGame", "id": socket.id, "intendedReciever": "sender", "payload": {} });
+  }
+
   addOneJimCoin() {
-    //socket.emit("ping", { "route": "", "id": socket.id, "intendedReciever": "sender", "payload": { amt: 1} });
+    socket.emit("ping", { "route": "addMoney", "id": socket.id, "intendedReciever": "sender", "payload": { amt: 1 } });
   }
 
   render() {

@@ -2,39 +2,54 @@ import React from "react";
 import { Card, Navbar, NavItem } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import AuthButtons from "./AuthButtons";
-import { Container, Image } from "react-bootstrap";
+import { Container } from "react-bootstrap";
+import img from './img/image.png';
+
+
+
+
 
 class Header extends React.Component {
   render() {
     return (
-      <Card border="Primary">
-        <Card.Body>
-          <Navbar id="navBar">
-            <Image src="" id="logo" />
-            <Navbar.Brand id="appName">JimCo</Navbar.Brand>
-            <Container id="navLinks">
-              <NavItem>
-                <Link to="/" className="nav-link">
-                  Dashboard
-                </Link>
-                <Link to="/gameboard" className="nav-link">
-                  Gameboard
-                </Link>
-                <Link to="#" className="nav-link">
-                  Help
-                </Link>
-                <Link to="#" className="nav-link">
-                  Settings
-                </Link>
-                <Link to="/aboutus" className="nav-link">
-                  About
-                </Link>
-              </NavItem>
-              <AuthButtons />
-            </Container>
-          </Navbar>
-        </Card.Body>
-      </Card>
+      <Container>
+        <Card border="Primary">
+          <Card.Body className="headerCard">
+            <Navbar id="navBar">
+              <img src={img} alt='JimCo logo' className="logo" />
+              <Navbar.Brand id="appName"></Navbar.Brand>
+              <Container className="navLinks">
+                <NavItem>
+                  <Link to="/" className="nav-link">
+                    Dashboard
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link to="/gameboard" className="nav-link">
+                    Gameboard
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link to="#" className="nav-link">
+                    Help
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link to="#" className="nav-link">
+                    Settings
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link to="/aboutus" className="nav-link">
+                    About
+                  </Link>
+                </NavItem>
+                <AuthButtons />
+              </Container>
+            </Navbar >
+          </Card.Body >
+        </Card >
+      </Container>
     );
   }
 }
