@@ -3,20 +3,21 @@ import { Card } from "react-bootstrap";
 import Header from "./header";
 import { Button } from "react-bootstrap";
 import "./gameboard.css"
-import { socket } from "./App";
 import coin from './img/logo.png';
+import { SocketContext } from "./switch/socket";
 
 class Gameboard extends React.Component {
 
-  joinLobby() {
-    socket.emit("ping", { "route": "joinLobby", "id": socket.id, "intendedReciever": "sender", "payload": {} });
-  }
+  // joinLobby() {
+  //   socket.emit("ping", { "route": "joinLobby", "id": socket.id, "intendedReciever": "sender", "payload": {} });
+  // }
 
-  startGame() {
-    socket.emit("ping", { "route": "startGame", "id": socket.id, "intendedReciever": "sender", "payload": {} });
-  }
+  // startGame() {
+  //   socket.emit("ping", { "route": "startGame", "id": socket.id, "intendedReciever": "sender", "payload": {} });
+  // }
 
   addOneJimCoin() {
+    let socket = this.context
     socket.emit("ping", { "route": "addMoney", "id": socket.id, "intendedReciever": "sender", "payload": { amt: 1 } });
   }
 
@@ -67,5 +68,6 @@ class Gameboard extends React.Component {
     )
   }
 }
+Gameboard.contextType = SocketContext
 
 export default Gameboard;
