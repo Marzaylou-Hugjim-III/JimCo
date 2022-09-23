@@ -3,7 +3,7 @@ import { Card, Navbar, NavItem } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import AuthButtons from "./AuthButtons";
 import { Container } from "react-bootstrap";
-import img from './img/image.png';
+import logo from './img/logo.png';
 
 
 
@@ -16,7 +16,7 @@ class Header extends React.Component {
         <Card border="Primary">
           <Card.Body className="headerCard">
             <Navbar id="navBar">
-              <img src={img} alt='JimCo logo' className="logo" />
+              <img src={logo} alt='JimCo logo' className="logo" />
               <Navbar.Brand id="appName"></Navbar.Brand>
               <Container className="navLinks">
                 <NavItem>

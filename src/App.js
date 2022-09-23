@@ -30,7 +30,6 @@ class App extends React.Component {
     return (
       <>
         <Router>
-          <Header />
           <Routes>
             <Route exact path="/" element={<Dashboard />} />
 
