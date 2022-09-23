@@ -1,9 +1,17 @@
-.cardsId {
-display: inline-flex;
-background-color: aqua;
+.headerCard {
+display: inline-block;
 
 }
 
+.navLinks{
+display: flex;  
+flex-direction: row;  
+}
+
+img{
+  width: 130px;
+  height:130px;
+}
 html, body, #app, #app>div {
   height: 100%
 }
