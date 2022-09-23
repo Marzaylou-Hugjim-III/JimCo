@@ -1,9 +1,14 @@
+* {
+  box-sizing: border-box;
+}
+
 .cardsId {
 display: inline-flex;
 background-color: aqua;
 
 }
 
-html, body, #app, #app>div {
+html, body, #app, #root {
+  max-height: 100vh;
   height: 100%
 }

@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Aboutus from "./aboutus";
 import Dashboard from "./dashboard";
 import Gameboard from "./gameboard";
-import Header from "./header";
 import "./styling.css";
 
 const { io } = require("socket.io-client");
@@ -29,7 +28,6 @@ class App extends React.Component {
     return (
       <>
         <Router>
-          <Header />
           <Routes>
             <Route exact path="/" element={<Dashboard />} />
 

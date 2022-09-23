@@ -1,11 +1,14 @@
 
 .gamecontainer {
-  margin: 5rem auto;
-  height: 60vh;
+  height: 100%;
+  background-image: url("./pexels-money.jpg");
+  background-size: cover;
+  padding: 5rem auto;
 }
 
 .flex-vertical {
-  height: 100%;
+  padding: 2rem;
+  height: calc(100% - 170px);
   flex-direction: column;
   display: flex;
   justify-content: space-between;
@@ -18,4 +21,9 @@
 
 .center {
   justify-content: center;
+}
+
+.chatbox {
+  width: 45rem;
+  height: 10rem !important;
 }
