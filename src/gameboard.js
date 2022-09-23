@@ -7,7 +7,54 @@ import coin from './img/logo.png';
 import { SocketContext } from "./switch/socket";
 
 class Gameboard extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      money: 0,
+      gameInProgress: false
+    }
+  }
 
+  componentDidMount() {
+    let socket = this.context
+    socket.on("moneyAdded", (newAmt) => this.moneyAdded(newAmt))
+    socket.on("gameStarting", () => this.gameStarting())
+  }
+
+  componentWillUnmount() {
+    let socket = this.context
+    socket.removeListener("moneyAdded", this.moneyAdded)
+    socket.removeListener("gameStarting", this.gameStarting)
+  }
+
+  gameStarting() {
+    this.setState({
+      gameInProgress: true
+    })
+  }
+
+  addOneJimCoin() {
+    let socket = this.context
+    socket.emit("addMoney", socket.id, 1)
+  }
+
+  moneyAdded(newAmt) {
+    this.setState({
+      money: newAmt
+    })
+  }
+
+  loadGame() {
+    let socket = this.context
+    console.log("game started, socket:", )
+    socket.emit("joinLobby", socket.id)
+    socket.emit("startGame")
+  }
+
+  joinLobby() {
+    // let socket = this.context
+    // socket.emit("joinLobby", socket.id)
+  }
   // joinLobby() {
   //   socket.emit("ping", { "route": "joinLobby", "id": socket.id, "intendedReciever": "sender", "payload": {} });
   // }
@@ -15,11 +62,6 @@ class Gameboard extends React.Component {
   // startGame() {
   //   socket.emit("ping", { "route": "startGame", "id": socket.id, "intendedReciever": "sender", "payload": {} });
   // }
-
-  addOneJimCoin() {
-    let socket = this.context
-    socket.emit("ping", { "route": "addMoney", "id": socket.id, "intendedReciever": "sender", "payload": { amt: 1 } });
-  }
 
   render() {
     return (
@@ -43,14 +85,23 @@ class Gameboard extends React.Component {
                 <Card.Text>
                   Section about JimCo Currency
                 <Button
-                  onClick={() => this.addOneJimCoin()}
-                  variant="primary">Buy JimCo Currency</Button>
+                  onClick={() => this.loadGame()}
+                  variant="secondary">Lobby</Button>
                 </Card.Text>
               </Card.Body>
+              <Card.Footer>
+                Game in progress {this.state.gameInProgress ? "true" : "false"}
+                <br/>
+                Your JimCoins: {this.state.money}
+              </Card.Footer>
             </Card>
           </div>
           <div className="flex-horizontal center">
-            <img src={coin} alt="jimcoin" className="jimcoin" />
+            <img
+              src={coin}
+              alt="jimcoin"
+              className="jimcoin"
+              onClick={() => this.addOneJimCoin()} />
           </div>
           <div className="flex-horizontal center">
             <Card className="chatbox">
