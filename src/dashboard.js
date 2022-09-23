@@ -1,24 +1,34 @@
 import React from "react";
-import { Container, Card } from "react-bootstrap";
+// import { Container, Card } from "react-bootstrap";
 import LobbyTable from "./lobbyTable";
 import ReadyUp from "./readyUp";
 import GlobalLeaderboard from "./globalLeaderboard";
 import ChatRoom from "./chatRoom";
+// import { Container } from "react-bootstrap";
+import "./dashboard.css"
+
 
 class Dashboard extends React.Component {
   render() {
     return (
-      <Container>
-        <h1>dashboard</h1>
+      <div><h1>dashboard</h1>
 
-        <LobbyTable />
+        <div className="dashboard">
+          <div className="horizon-flex">
+            <LobbyTable />
 
-        <ReadyUp />
 
-        <GlobalLeaderboard />
+            <div className="verti-flex">
+              <ReadyUp />
+              <ChatRoom />
 
-        <ChatRoom />
-      </Container>
+            </div>
+            <GlobalLeaderboard />
+
+          </div >
+        </div>
+      </div >
+
     );
   }
 }
