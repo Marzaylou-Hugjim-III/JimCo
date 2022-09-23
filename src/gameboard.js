@@ -4,6 +4,7 @@ import Header from "./header";
 import { Button } from "react-bootstrap";
 import "./gameboard.css"
 import { socket } from "./App";
+import coin from './img/logo.png';
 
 class Gameboard extends React.Component {
 
@@ -48,7 +49,7 @@ class Gameboard extends React.Component {
             </Card>
           </div>
           <div className="flex-horizontal center">
-            hi
+            <img src={coin} alt="jimcoin" className="jimcoin" />
           </div>
           <div className="flex-horizontal center">
             <Card className="chatbox">

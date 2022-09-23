@@ -27,3 +27,20 @@
   width: 45rem;
   height: 10rem !important;
 }
+
+.jimcoin {
+  transition: all 0.25s ease-in-out;
+  width: 200px;
+  height: 200px;
+}
+
+.jimcoin:hover {
+  width: 250px;
+  height: 250px;
+  rotate: 6deg;
+}
+
+.jimcoin:active {
+  width: 230px;
+  height: 230px;
+}
