@@ -3,14 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Aboutus from "./aboutus";
 import Dashboard from "./dashboard";
 import Gameboard from "./gameboard";
-import Header from "./header";
 import Help from "./help";
 import "./styling.css";
-
-const { io } = require("socket.io-client");
-const socket = io("ws://localhost:3500");
-//const routeMap = new Map();
-const { switchboard } = require("./switch/switchboard");
+import { SocketContext, socket } from "./switch/socket";
 
 class App extends React.Component {
   constructor(props) {
@@ -18,32 +13,24 @@ class App extends React.Component {
     this.state = {
       coins: "",
     };
-    socket.on("pong", (message) => {
-      console.log("message: ", message);
-      switchboard(message);
-    });
   }
-  componentDidMount() {
-    socket.emit("ping", { "route": "example", "id": "test", "intendedReciever": "sender", "payload": { "stuff": "pog" } });
-  }
+
   render() {
     return (
       <>
-        <Router>
-          <Routes>
-            <Route exact path="/" element={<Dashboard />} />
-
-            <Route exact path="/gameboard" element={<Gameboard />} />
-
-            <Route exact path="/aboutus" element={<Aboutus />} />
-
-            <Route exact path ="/help" element={<Help />} />
-          </Routes>
-        </Router>
+        <SocketContext.Provider value={socket} >
+          <Router>
+            <Routes>
+              <Route exact path="/" element={<Dashboard />} />
+              <Route exact path="/gameboard" element={<Gameboard />} />
+              <Route exact path="/aboutus" element={<Aboutus />} />
+              <Route exact path ="/help" element={<Help />} />
+            </Routes>
+          </Router>
+        </SocketContext.Provider>
       </>
     );
   }
 }
 
-export { socket }
 export default App;
