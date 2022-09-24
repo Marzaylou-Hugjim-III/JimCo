@@ -1,0 +1,23 @@
+/* <div className="horizon-flex">
+<div className="verti-flex"> */
+/* <Container className="dashboard"> */
+
+.dashboard {
+  height: 100vh;
+  background-image: url("./img/pexels-money.jpg");
+  background-size: cover;
+  padding: 5rem auto;
+}
+
+.horizon-flex {
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
+}
+.verti-flex {
+  padding: 2rem;
+  height: calc(100% - 170px);
+  flex-direction: column;
+  display: flex;
+  justify-content: space-between;
+}

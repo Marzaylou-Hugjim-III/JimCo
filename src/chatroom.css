@@ -1,0 +1,8 @@
+.flexi-horizon-center{
+  display:flex;
+  justify-content: center;
+} 
+.chatybox{
+    width: 20rem;
+    height: 10rem;
+}

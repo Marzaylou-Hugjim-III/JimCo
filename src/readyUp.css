@@ -1,0 +1,8 @@
+/* ready = chatbox css */
+.ready{
+  width: 45rem;
+  height: 10rem !important;
+}
+.center-flex{
+justify-content: center;
+}
