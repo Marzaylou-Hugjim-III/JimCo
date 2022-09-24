@@ -1,62 +1,51 @@
 import React from "react";
-import { Card, Navbar, NavItem } from "react-bootstrap";
+import { Nav, Navbar, NavDropdown, NavItem } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import AuthButtons from "./AuthButtons";
 import { Container } from "react-bootstrap";
-import logo from './img/logo.png';
-
-
-
-
+import logo from "./img/logo.png";
 
 class Header extends React.Component {
   render() {
     return (
-      <Container>
-        <Card border="Primary">
-          <Card.Body className="headerCard">
-            <Navbar id="navBar">
-              <img src={logo} alt='JimCo logo' className="logo" />
-              <Navbar.Brand id="appName"></Navbar.Brand>
-              <Container className="navLinks">
-                <NavItem>
-                  <Link to="/" className="nav-link">
-                    Dashboard
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link to="/gameboard" className="nav-link">
-                    Gameboard
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link to="/help" className="nav-link">
-                    Help
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link to="#" className="nav-link">
-                    Settings
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link to="/aboutus" className="nav-link">
-                    About
-                  </Link>
-                </NavItem>
-                <AuthButtons />
-              </Container>
-            </Navbar >
-          </Card.Body >
-        </Card >
-      </Container>
+      <Navbar bg="dark" variant="dark" id="navBar" className="mb-3" expand="lg">
+        <Container>
+          <Navbar.Brand id="appName">
+            <img
+              src={logo}
+              alt="JimCo logo"
+              className="logo d-inline-block align-top"
+            />
+          </Navbar.Brand>
+        </Container>
+
+        <Nav className="me-auto">
+          <NavDropdown title="Menu" menuVariant="dark">
+            <NavItem>
+              <Link to="/" className="nav-link">
+                Dashboard
+              </Link>
+            </NavItem>
+            <NavItem>
+              <Link to="/gameboard" className="nav-link">
+                Gameboard
+              </Link>
+            </NavItem>
+            <NavItem>
+              <Link to="/help" className="nav-link">
+                Help
+              </Link>
+            </NavItem>
+            <NavItem>
+              <Link to="/aboutus" className="nav-link">
+                About
+              </Link>
+            </NavItem>
+          </NavDropdown>
+          <AuthButtons />
+        </Nav>
+      </Navbar>
     );
   }
 }
 export default Header;
-
-/* <DropdownButton id="dropdown-basic-button" title="Dropdown button">
-      <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-      <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-      <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-    </DropdownButton> */
