@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Aboutus from "./aboutus";
 import Dashboard from "./dashboard";
 import Gameboard from "./gameboard";
+import Profile from "./profile";
 import Help from "./help";
 import "./styling.css";
 import { SocketContext, socket } from "./switch/socket";
@@ -25,6 +26,7 @@ class App extends React.Component {
               <Route exact path="/gameboard" element={<Gameboard />} />
               <Route exact path="/aboutus" element={<Aboutus />} />
               <Route exact path ="/help" element={<Help />} />
+              <Route exact path ="/profile" element={<Profile />} />
             </Routes>
           </Router>
         </SocketContext.Provider>

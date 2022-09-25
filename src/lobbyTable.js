@@ -14,22 +14,14 @@ class LobbyTable extends React.Component {
                 <td>Name</td>
                 <td>Status</td>
               </tr>
-              <tr>
-                <td>Player 1</td>
-                <td>Ready</td>
-              </tr>
-              <tr>
-                <td>Player 2</td>
-                <td>Ready</td>
-              </tr>
-              <tr>
-                <td>Player 3</td>
-                <td>Ready</td>
-              </tr>
-              <tr>
-                <td>Player 4</td>
-                <td>Ready</td>
-              </tr>
+              {!!this.props.lobby && this.props.lobby.map(id => {
+                return (
+                  <tr key={id} >
+                    <td>{id}</td>
+                    <td>Ready</td>
+                  </tr>
+                )
+              })}
             </tbody>
           </Table>
         </Card.Body>

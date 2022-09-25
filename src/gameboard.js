@@ -5,31 +5,60 @@ import { Button } from "react-bootstrap";
 import "./gameboard.css"
 import coin from './img/logo.png';
 import { SocketContext } from "./switch/socket";
+import { Navigate } from "react-router-dom";
 
 class Gameboard extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      money: 0,
-      gameInProgress: false
+      loading: true,
+      gameStatus: null,
     }
   }
 
   componentDidMount() {
     let socket = this.context
-    socket.on("moneyAdded", (newAmt) => this.moneyAdded(newAmt))
-    socket.on("gameStarting", () => this.gameStarting())
+    socket.on("gameStatus", status => {
+      this.setState({
+        loading: false,
+        gameStatus: status,
+      })
+    })
+    if (this.state.loading) {
+      return
+    }
+    socket.on("moneyChanged", (newAmt) => {
+      const player = this.getPlayer();
+      player.money = newAmt;
+      this.setState({
+        gameStatus: this.state.gameStatus,
+      })
+    })
+    socket.on("resourcesChanged", (name, newAmt) => {
+      const player = this.getPlayer()
+      player.resourceMap[name] = newAmt
+      this.instantUpdatePlayer({
+        resourceMap: player.resourceMap
+      })
+    })
   }
 
-  componentWillUnmount() {
-    let socket = this.context
-    socket.removeListener("moneyAdded", this.moneyAdded)
-    socket.removeListener("gameStarting", this.gameStarting)
-  }
-
-  gameStarting() {
+  instantUpdatePlayer(patch) {
+    const socket = this.context
+    if (!this.state.gameStatus.running) {
+      return;
+    }
+    const newGameStatus = this.state.gameStatus
+    newGameStatus.players = newGameStatus.players.map(player => {
+      if (player.id === socket.id) {
+        Object.keys(patch).forEach(key => {
+          player[key] = patch[key]
+        })
+      }
+      return player
+    })
     this.setState({
-      gameInProgress: true
+      gameStatus: newGameStatus,
     })
   }
 
@@ -38,34 +67,45 @@ class Gameboard extends React.Component {
     socket.emit("addMoney", socket.id, 1)
   }
 
-  moneyAdded(newAmt) {
-    this.setState({
-      money: newAmt
+
+  addResource(name, amt) {
+    let socket = this.context;
+    socket.emit("buyResource", socket.id, name, amt)
+  }
+
+  getPlayer() {
+    let socket = this.context
+    if (!this.state.gameStatus) {
+      return null;
+    }
+    return this.state.gameStatus.players.reduce((acc, player) => {
+      if (player.id === socket.id) {
+        acc = player
+      }
+      return acc;
     })
   }
 
-  loadGame() {
-    let socket = this.context
-    console.log("game started, socket:", )
-    socket.emit("joinLobby", socket.id)
-    socket.emit("startGame")
-  }
-
-  joinLobby() {
-    // let socket = this.context
-    // socket.emit("joinLobby", socket.id)
-  }
-  // joinLobby() {
-  //   socket.emit("ping", { "route": "joinLobby", "id": socket.id, "intendedReciever": "sender", "payload": {} });
-  // }
-
-  // startGame() {
-  //   socket.emit("ping", { "route": "startGame", "id": socket.id, "intendedReciever": "sender", "payload": {} });
-  // }
-
   render() {
+    if (this.state.loading) {
+      return (
+        <div>
+          Loading...
+        </div>
+      )
+    }
+
+    const { resources, players, running } = this.state.gameStatus
+
+    const player = this.getPlayer()
+
+    if (!running) {
+      return (
+        <Navigate to="/" replace />
+      )
+    }
+
     return (
-    <>
       <div className="gamecontainer">
         <Header />
         <div className="flex-vertical">
@@ -84,15 +124,46 @@ class Gameboard extends React.Component {
                 <Card.Title>JimCo Currency</Card.Title>
                 <Card.Text>
                   Section about JimCo Currency
-                <Button
-                  onClick={() => this.loadGame()}
-                  variant="secondary">Lobby</Button>
                 </Card.Text>
               </Card.Body>
               <Card.Footer>
-                Game in progress {this.state.gameInProgress ? "true" : "false"}
-                <br/>
-                Your JimCoins: {this.state.money}
+                <h3>Inventory</h3>
+                Your JimCoins: {player.money};
+                {player.playerResources.map(res => {
+                  const { name, quantity } = res
+                  return (
+                    <div key={name}>
+                      Your {name}: {quantity}
+                      <br />
+                      <button
+                        onClick={() => {
+                          this.addResource(name, 1)
+                        }}>
+                        Buy {name}
+                      </button>
+                    </div>
+                  )
+                })}
+              </Card.Footer>
+              <Card.Footer>
+                <h3>JimCo Market</h3>
+                {resources.map(res => {
+                  return (
+                    <div key={res.name}>
+                      {res.name} Quantity: {res.quantity}
+                      <br />
+                      {res.name} Price: {res.price}
+                      <br />
+                      Buy:
+                      <button
+                        onClick={() => {
+                          this.addResource(res.name, 1)
+                        }}>
+                        Buy {res.name}
+                      </button>
+                    </div>
+                  )
+                })}
               </Card.Footer>
             </Card>
           </div>
@@ -115,7 +186,6 @@ class Gameboard extends React.Component {
           </div>
         </div>
       </div>
-    </>
     )
   }
 }
