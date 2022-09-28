@@ -83,7 +83,8 @@ class Gameboard extends React.Component {
 
   buyAutoResource(name) {
     let socket = this.context;
-    socket.emit("buyAutoResources", socket.id, name)
+    console.log("buyAutoResource on frontend");
+    socket.emit("buyAutoResource", socket.id, name)
   }
 
   render() {
@@ -158,7 +159,7 @@ class Gameboard extends React.Component {
                       +1 
                   </Button>
                 </div>
-                <div style={{ visibility: "hidden" }} className="upgrades-row-flex">
+                <div style={{  }} className="upgrades-row-flex">
                   <div>
                     Click Multipliers: {clickMultiplier}
                   </div>
@@ -184,6 +185,14 @@ class Gameboard extends React.Component {
                       <div className="resourceHeader">
                         You have {value} {name}
                       </div>
+                      <Button
+                          size="sm"
+                            variant="primary"
+                            onClick={() => {
+                              this.buyAutoResource(name);
+                            }}>
+                            AutoGenerate {name}
+                          </Button>
                       <div className="buysell-col-flex">
                         <div className="buysell-row-flex">
                             <Button
@@ -245,6 +254,7 @@ class Gameboard extends React.Component {
                             }}>
                             Sell 50
                           </Button>
+                         
                         </div>
                       </div>
                     </div>
