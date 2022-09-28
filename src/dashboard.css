@@ -14,6 +14,7 @@
   display: flex;
   justify-content: space-between;
 }
+
 .verti-flex {
   padding: 2rem;
   height: calc(100% - 170px);
