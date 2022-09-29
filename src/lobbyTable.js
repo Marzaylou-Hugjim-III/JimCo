@@ -1,6 +1,7 @@
 import React from "react";
 import { Table, Card } from "react-bootstrap";
-
+const Chance = require("chance");
+const chance = new Chance();
 class LobbyTable extends React.Component {
   render() {
     return (
@@ -15,6 +16,7 @@ class LobbyTable extends React.Component {
                 <td>Status</td>
               </tr>
               {!!this.props.lobby && this.props.lobby.map(id => {
+                console.log("lobbyTable this.props.lobby", this.props.lobby);
                 return (
                   <tr key={id} >
                     <td>{id}</td>
