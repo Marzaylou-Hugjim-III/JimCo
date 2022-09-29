@@ -18,11 +18,11 @@ class LobbyTable extends React.Component {
               {!!this.props.lobby && this.props.lobby.map(id => {
                 console.log("lobbyTable this.props.lobby", this.props.lobby);
                 return (
-                  <tr key={id} >
+                  <tr key={id} > 
                     <td>{id}</td>
                     <td>Ready</td>
                   </tr>
-                )
+                ) // need to get the id and the random name in lobby.
               })}
             </tbody>
           </Table>
