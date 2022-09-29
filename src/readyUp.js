@@ -13,6 +13,7 @@ class ReadyUp extends React.Component {
             
             <Button
               onClick={() => this.props.toggleLobby(this.context)}
+              
               variant="primary">
                 {this.props.inLobby ? "Leave" : "Join"} Lobby
               </Button>
