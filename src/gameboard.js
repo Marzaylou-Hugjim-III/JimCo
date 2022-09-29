@@ -12,6 +12,7 @@ class Gameboard extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      chat: undefined,
       running: false,
       loading: true,
       gameStatus: null,
@@ -33,6 +34,7 @@ class Gameboard extends React.Component {
       const players = status.players.filter(player => player.id !== socket.id)
   
       this.setState({
+        chat: status.chat,
         loading: false,
         running: status.running,
         money: ourPlayer.money,
@@ -96,6 +98,7 @@ class Gameboard extends React.Component {
       )
     }
     if (!this.state.running) {
+
       return (
         <Navigate to="/" replace />
       )
@@ -107,6 +110,7 @@ class Gameboard extends React.Component {
       autoClicker,
       clickMultiplier,
       players,
+      chat,
     } = this.state
 
     console.log(players)
@@ -279,7 +283,16 @@ class Gameboard extends React.Component {
             </Card>
           </div>
           <div className="flex-horizontal center">
-            <ChatRoom />
+            <img
+              src={coin}
+              alt="jimcoin"
+              className="jimcoin"
+              onClick={() => this.addOneJimCoin()} />
+          </div>
+          <div className="flex-horizontal center">
+            <ChatRoom
+              name={"Lobby"}
+              chatMessages={chat}/>
           </div>
         </div>
       </div>

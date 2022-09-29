@@ -3,6 +3,9 @@
   justify-content: center;
 } 
 .chatybox{
-    width: 20rem;
-    height: 10rem;
+  width: 20rem;
+}
+
+.chat-grow {
+  flex-grow: 1;
 }

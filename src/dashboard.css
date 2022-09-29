@@ -1,6 +1,3 @@
-/* <div className="horizon-flex">
-<div className="verti-flex"> */
-/* <Container className="dashboard"> */
 
 .dashboard {
   height: 100vh;
@@ -21,4 +18,5 @@
   flex-direction: column;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
