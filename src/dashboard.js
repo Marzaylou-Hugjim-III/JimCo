@@ -6,6 +6,8 @@ import ChatRoom from "./chatRoom";
 import "./dashboard.css"
 import { SocketContext } from "./switch/socket";
 import { Navigate } from "react-router-dom";
+const Chance = require("chance");
+const chance = new Chance();
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -38,7 +40,9 @@ class Dashboard extends React.Component {
   }
 
   toggleLobby(socket) {
-    socket.emit("toggleLobby", socket.id)
+    let name = chance.animal();
+    console.log("socket.id and name", socket.id, name);
+    socket.emit("toggleLobby", socket.id, name);
   }
 
   startGame(socket) {

@@ -13,57 +13,50 @@ class Gameboard extends React.Component {
     super(props)
     this.state = {
       chat: undefined,
+      running: false,
       loading: true,
       gameStatus: null,
+      money: 0,
+      clickMultiplier: 0,
+      autoClicker: 0,
+      playerResources: [],
+      players: {},
+      globalResources: {},
     }
   }
 
   componentDidMount() {
     let socket = this.context
-    socket.on("gameStatus", status => {
+    socket.on("gameStatus", (status) => {
+      const globalResources = status.resources;
+      let socket = this.context;
+      const ourPlayer = status.players.filter(player => player.id === socket.id)[0]
+      const players = status.players.filter(player => player.id !== socket.id)
+  
       this.setState({
         chat: status.chat,
         loading: false,
-        gameStatus: status,
+        running: status.running,
+        money: ourPlayer.money,
+        clickMultiplier: ourPlayer.clickMultiplier,
+        autoClicker: ourPlayer.autoClicker,
+        playerResources: ourPlayer.playerResources,
+        players: players,
+        globalResources: globalResources,
       })
     })
-    if (this.state.loading) {
-      return
-    }
     socket.on("moneyChanged", (newAmt) => {
-      const player = this.getPlayer();
-      player.money = newAmt;
       this.setState({
-        gameStatus: this.state.gameStatus,
+        money: newAmt,
       })
     })
-    socket.on("resourcesChanged", (name, newAmt) => {
-      const player = this.getPlayer()
-      player.resourceMap[name] = newAmt
-      this.instantUpdatePlayer({
-        resourceMap: player.resourceMap
+    socket.on("resourcesChanged", (newPlayerResources) => {
+      this.setState({
+        playerResources: newPlayerResources,
       })
     })
   }
 
-  instantUpdatePlayer(patch) {
-    const socket = this.context
-    if (!this.state.gameStatus.running) {
-      return;
-    }
-    const newGameStatus = this.state.gameStatus
-    newGameStatus.players = newGameStatus.players.map(player => {
-      if (player.id === socket.id) {
-        Object.keys(patch).forEach(key => {
-          player[key] = patch[key]
-        })
-      }
-      return player
-    })
-    this.setState({
-      gameStatus: newGameStatus,
-    })
-  }
 
   addOneJimCoin() {
     let socket = this.context
@@ -75,17 +68,25 @@ class Gameboard extends React.Component {
     socket.emit("buyResource", socket.id, name, amt)
   }
 
-  getPlayer() {
-    let socket = this.context
-    if (!this.state.gameStatus) {
-      return null;
-    }
-    return this.state.gameStatus.players.reduce((acc, player) => {
-      if (player.id === socket.id) {
-        acc = player
-      }
-      return acc;
-    })
+  sellResource(name, amt){
+    let socket= this.context;
+    socket.emit("sellResource", socket.id, name, amt)
+  }
+
+  buyAutoClicker() {
+    let socket = this.context;
+    socket.emit("buyAutoClicker", socket.id)
+  }
+
+  buyMultiplier(){
+    let socket = this.context;
+    socket.emit("buyMultiplier", socket.id)
+  }
+
+  buyAutoResource(name) {
+    let socket = this.context;
+    console.log("buyAutoResource on frontend");
+    socket.emit("buyAutoResource", socket.id, name)
   }
 
   render() {
@@ -96,70 +97,185 @@ class Gameboard extends React.Component {
         </div>
       )
     }
-    const { chat, resources, players, running } = this.state.gameStatus
-    const player = this.getPlayer()
-    if (!running) {
+    if (!this.state.running) {
+
       return (
         <Navigate to="/" replace />
       )
     }
+
+    const {
+      globalResources,
+      playerResources,
+      autoClicker,
+      clickMultiplier,
+      players,
+      chat,
+    } = this.state
+
+    console.log(players)
 
     return (
       <div className="gamecontainer">
         <Header />
         <div className="flex-vertical">
           <div className="flex-horizontal">
-            <Card style={{ width: '18rem' }} >
+            <Card style={{ width: '22rem' }} >
               <Card.Body >
-                <Card.Title>List of Players Ready</Card.Title>
+                <h3>Players</h3>
+                {/* <Card.Text>
+                  hi
+                </Card.Text> */}
                 <Card.Text>
-                  Some quick example text to build on the card title and make up the
-                  bulk of the card's content.
+                  {!!players && players.map(player => {
+                    return(
+                      <div>
+                        {player.name}
+                      </div>
+                    )
+                  })}
                 </Card.Text>
               </Card.Body>
             </Card>
-            <Card style={{ width: '18rem' }}>
-              <Card.Body>
-                <Card.Title>JimCo Currency</Card.Title>
-                <Card.Text>
-                  Section about JimCo Currency
-                </Card.Text>
-              </Card.Body>
+            <div className="flex-horizontal center">
+              <img
+                src={coin}
+                alt="jimcoin"
+                className="jimcoin"
+                onClick={() => this.addOneJimCoin()} />
+            </div>
+            <Card style={{ width: '22rem' }}>
               <Card.Footer>
-                <h3>Inventory</h3>
-                Your JimCoins: {player.money};
-                {player.playerResources.map(res => {
-                  const { name, quantity } = res
+                <h3>
+                  Player Resources
+                </h3>
+                <h4>JimCoins: {this.state.money}</h4>
+                <div className="upgrades-row-flex">
+                  <div>
+                    Auto-Clickers: {autoClicker}
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="primary"
+                    onClick={() => {
+                      this.buyAutoClicker()
+                    }}>
+                      +1 
+                  </Button>
+                </div>
+                <div style={{  }} className="upgrades-row-flex">
+                  <div>
+                    Click Multipliers: {clickMultiplier}
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="primary"
+                    onClick={() => {
+                      this.buyMultiplier()
+                    }}>
+                      +1
+                  </Button>
+                </div>
+                {!!playerResources && playerResources.map(res => {
+                  const globalRes = globalResources.filter(globalRes => {
+                    if(globalRes.name === res.name) {
+                      return true;
+                    }
+                    return false;
+                  })[0]
+                  const { name, value } = res
                   return (
                     <div key={name}>
-                      Your {name}: {quantity}
-                      <br />
-                      <button
-                        onClick={() => {
-                          this.addResource(name, 1)
-                        }}>
-                        Buy {name}
-                      </button>
+                      <div className="resourceHeader">
+                        You have {value} {name}
+                      </div>
+                      <Button
+                          size="sm"
+                            variant="primary"
+                            onClick={() => {
+                              this.buyAutoResource(name);
+                            }}>
+                            AutoGenerate {name}
+                          </Button>
+                      <div className="buysell-col-flex">
+                        <div className="buysell-row-flex">
+                            <Button
+                              size="sm"
+                              variant="primary"
+                              onClick={() => {
+                                this.addResource(name, 1);
+                              }}>
+                              Buy 1
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="primary"
+                              onClick={() => {
+                                this.addResource(name, 10);
+                              }}>
+                              Buy 10
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="primary"
+                              onClick={() => {
+                                this.addResource(name, 50);
+                              }}>
+                              Buy 50
+                            </Button>
+                        </div>
+                        <div className="buysell-row-flex">
+                          <div className="priceText">
+                          {globalRes.price}
+                          </div>
+                          <div className="priceText">
+                            {globalRes.price * 10}
+                          </div>
+                          <div className="priceText">
+                            {globalRes.price * 50}
+                          </div>
+                        </div>
+                        <div className="buysell-row-flex">
+                          <Button
+                          size="sm"
+                            variant="primary"
+                            onClick={() => {
+                              this.sellResource(name, 1);
+                            }}>
+                            Sell 1
+                          </Button> <Button
+                          size="sm"
+                            variant="primary"
+                            onClick={() => {
+                              this.sellResource(name, 10);
+                            }}>
+                            Sell 10
+                          </Button> <Button
+                          size="sm"
+                            variant="primary"
+                            onClick={() => {
+                              this.sellResource(name, 50);
+                            }}>
+                            Sell 50
+                          </Button>
+                         
+                        </div>
+                      </div>
                     </div>
                   )
                 })}
               </Card.Footer>
               <Card.Footer>
-                <h3>JimCo Market</h3>
-                {resources.map(res => {
+                <h3>Global Resources</h3>
+                {!!globalResources && globalResources.map(res => {
                   return (
                     <div key={res.name}>
-                      {res.name} Quantity: {res.quantity}
+                      {res.name}
                       <br />
-                      {res.name} Price: {res.price}
+                      Quantity: {res.quantity}
                       <br />
-                      Buy:
-                      <button
-                        onClick={() => {
-                          this.addResource(res.name, 1)
-                        }}>
-                        Buy {res.name}
-                      </button>
+                      Price: {res.price}
+                      <br />
                     </div>
                   )
                 })}
@@ -176,7 +292,7 @@ class Gameboard extends React.Component {
           <div className="flex-horizontal center">
             <ChatRoom
               name={"Lobby"}
-              chatMessages={chat} />
+              chatMessages={chat}/>
           </div>
         </div>
       </div>
