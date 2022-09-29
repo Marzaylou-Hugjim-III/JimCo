@@ -6,11 +6,13 @@ import "./gameboard.css"
 import coin from './img/logo.png';
 import { SocketContext } from "./switch/socket";
 import { Navigate } from "react-router-dom";
+import ChatRoom from "./chatRoom";
 
 class Gameboard extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      chat: undefined,
       loading: true,
       gameStatus: null,
     }
@@ -20,6 +22,7 @@ class Gameboard extends React.Component {
     let socket = this.context
     socket.on("gameStatus", status => {
       this.setState({
+        chat: status.chat,
         loading: false,
         gameStatus: status,
       })
@@ -67,7 +70,6 @@ class Gameboard extends React.Component {
     socket.emit("addMoney", socket.id, 1)
   }
 
-
   addResource(name, amt) {
     let socket = this.context;
     socket.emit("buyResource", socket.id, name, amt)
@@ -94,11 +96,8 @@ class Gameboard extends React.Component {
         </div>
       )
     }
-
-    const { resources, players, running } = this.state.gameStatus
-
+    const { chat, resources, players, running } = this.state.gameStatus
     const player = this.getPlayer()
-
     if (!running) {
       return (
         <Navigate to="/" replace />
@@ -175,14 +174,9 @@ class Gameboard extends React.Component {
               onClick={() => this.addOneJimCoin()} />
           </div>
           <div className="flex-horizontal center">
-            <Card className="chatbox">
-              <Card.Body>
-                <Card.Title>Chat??? Maybe???</Card.Title>
-                <Card.Text>
-                  Chat Box
-                </Card.Text>
-              </Card.Body>
-            </Card>
+            <ChatRoom
+              name={"Lobby"}
+              chatMessages={chat} />
           </div>
         </div>
       </div>

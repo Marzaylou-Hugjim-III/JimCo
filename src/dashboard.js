@@ -19,6 +19,11 @@ class Dashboard extends React.Component {
 
   componentDidMount() {
     let socket = this.context
+    socket.on("gameStatus", status => {
+      this.setState({
+        chat: status.chat,
+      })
+    })
     socket.on("recievedLobby", lobby => {
       this.setState({
         lobby: lobby,
@@ -55,7 +60,9 @@ class Dashboard extends React.Component {
                     inLobby={this.state.inLobby}
                     toggleLobby={this.toggleLobby}
                     startGame={this.startGame} />
-                  <ChatRoom />
+                  <ChatRoom
+                    name={"Lobby"}
+                    chatMessages={this.state.chat} />
                 </div>
                 <GlobalLeaderboard />
               </div >
