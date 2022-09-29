@@ -1,13 +1,9 @@
 import React from "react";
-import LobbyTable from "./lobbyTable";
-import ReadyUp from "./readyUp";
-import GlobalLeaderboard from "./globalLeaderboard";
+import Header from "./header";
 import ChatRoom from "./chatRoom";
-import "./dashboard.css"
+import { Card, Table, Button } from "react-bootstrap";
 import { SocketContext } from "./switch/socket";
 import { Navigate } from "react-router-dom";
-const Chance = require("chance");
-const chance = new Chance();
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -20,7 +16,7 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    let socket = this.context
+    let socket = this.context;
     socket.on("gameStatus", status => {
       this.setState({
         chat: status.chat,
@@ -40,9 +36,7 @@ class Dashboard extends React.Component {
   }
 
   toggleLobby(socket) {
-    let name = chance.animal();
-    console.log("socket.id and name", socket.id, name);
-    socket.emit("toggleLobby", socket.id, name);
+    socket.emit("toggleLobby", socket.id);
   }
 
   startGame(socket) {
@@ -55,11 +49,18 @@ class Dashboard extends React.Component {
         {this.state.redirect ? (
           <Navigate to="/gameboard" replace />
         ) : (
-          <div><h1>dashboard</h1>
-            <div className="dashboard">
-              <div className="horizon-flex">
+          <>
+            <div className="coins-background" />
+            <Header />
+            <div id="dashboard">
+              <div style={{
+                height:"93vh",
+                display:"flex",
+                justifyContent:"space-between",
+                padding:"1.5rem",
+              }}>
                 <LobbyTable lobby={this.state.lobby}/>
-                <div className="verti-flex">
+                <div id="dashboard-middle">
                   <ReadyUp
                     inLobby={this.state.inLobby}
                     toggleLobby={this.toggleLobby}
@@ -68,10 +69,10 @@ class Dashboard extends React.Component {
                     name={"Lobby"}
                     chatMessages={this.state.chat} />
                 </div>
-                <GlobalLeaderboard />
+              <PostGame />
               </div >
             </div>
-          </div >
+          </>
         )}
       </>
     );
@@ -79,5 +80,100 @@ class Dashboard extends React.Component {
 }
 Dashboard.contextType = SocketContext
 
+class LobbyTable extends React.Component {
+  render() {
+    return (
+      <Card className="panel" style={{ width: "18rem" }}>
+        <Card.Body>
+          <Card.Title>Lobby</Card.Title>
+          <Table className="panel">
+            <tbody>
+              <tr>
+                <td>Name</td>
+                <td>Status</td>
+              </tr>
+              {!!this.props.lobby && this.props.lobby.map(id => {
+                return (
+                  <tr key={id} >
+                    <td>{id}</td>
+                    <td>Ready</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </Table>
+        </Card.Body>
+      </Card>
+
+    );
+  }
+}
+
+class PostGame extends React.Component {
+  render() {
+    return (
+      <Card
+        className="panel"
+        style={{ width: "18rem" }}>
+        <Card.Body>
+          <Card.Title>Post Game</Card.Title>
+          <Table className="panel">
+            <tbody>
+              <tr>
+                <td>Name</td>
+                <td>Time</td>
+              </tr>
+              <tr>
+                <td>Jim</td>
+                <td>600 seconds</td>
+              </tr>
+              <tr>
+                <td>Zayah</td>
+                <td>760 seconds</td>
+              </tr>
+              <tr>
+                <td>Martha</td>
+                <td>1000 seconds</td>
+              </tr>
+              <tr>
+                <td>Hugo</td>
+                <td>1300 seconds</td>
+              </tr>
+            </tbody>
+          </Table>
+        </Card.Body>
+      </Card>
+    );
+  }
+}
+
+class ReadyUp extends React.Component {
+  render() {
+    return (
+      <Card className="panel">
+        <Card.Body>
+          <Card.Title style={{textAlign:"center"}}>Ready Up</Card.Title>
+          <div style={{
+            display:"flex",
+            justifyContent:"space-evenly",
+          }}>
+            <Button
+              onClick={() => this.props.toggleLobby(this.context)}
+              variant="primary">
+                {this.props.inLobby ? "Leave" : "Join"} Lobby
+            </Button>
+            <Button
+              onClick={() => this.props.startGame(this.context)}
+              variant="success">start game
+            </Button>
+          </div>
+        </Card.Body>
+      </Card>
+    );
+  }
+}
+ReadyUp.contextType = SocketContext
+
+Dashboard.contextType = SocketContext
 
 export default Dashboard;

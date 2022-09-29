@@ -2,7 +2,6 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import Header from "./header";
 import { Button } from "react-bootstrap";
-import "./gameboard.css"
 import coin from './img/logo.png';
 import { SocketContext } from "./switch/socket";
 import { Navigate } from "react-router-dom";
@@ -113,19 +112,14 @@ class Gameboard extends React.Component {
       chat,
     } = this.state
 
-    console.log(players)
-
     return (
-      <div className="gamecontainer">
+      <div id="gamecontainer">
         <Header />
         <div className="flex-vertical">
           <div className="flex-horizontal">
             <Card style={{ width: '22rem' }} >
               <Card.Body >
                 <h3>Players</h3>
-                {/* <Card.Text>
-                  hi
-                </Card.Text> */}
                 <Card.Text>
                   {!!players && players.map(player => {
                     return(
@@ -281,13 +275,6 @@ class Gameboard extends React.Component {
                 })}
               </Card.Footer>
             </Card>
-          </div>
-          <div className="flex-horizontal center">
-            <img
-              src={coin}
-              alt="jimcoin"
-              className="jimcoin"
-              onClick={() => this.addOneJimCoin()} />
           </div>
           <div className="flex-horizontal center">
             <ChatRoom

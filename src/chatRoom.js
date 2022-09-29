@@ -1,7 +1,6 @@
 import Button from "@restart/ui/esm/Button";
 import React from "react";
 import { Card, ListGroup, Form, InputGroup } from "react-bootstrap";
-import "./chatroom.css";
 import { SocketContext } from "./switch/socket";
 
 
@@ -15,55 +14,62 @@ class ChatRoom extends React.Component {
   render() {
     const { chatMessages } = this.props
     return (
-      <div className="flexi-horizon-center">
-        <Card className="chatybox">
-          <Card.Title
+      <Card className="panel">
+        <Card.Title
+          style={{
+            marginBottom: 0,
+            padding: "0.5rem",
+        }}>
+          Chat
+        </Card.Title>
+        {!!chatMessages && (
+          <ListGroup
+            className="chat-panel"
             style={{
-              marginBottom: 0,
-              padding: "0.5rem",
-            }} >Chat</Card.Title>
-          {!!chatMessages && (
-            <ListGroup style={{maxHeight:"200px", overflowY:"scroll"}}>
-              {chatMessages.map((message, i) => {
-                return(
-                  <ListGroup.Item
-                    style={{backgroundColor: i % 2 === 0 ? "#ffffff" : "#ebebeb"}}
-                    key={i}>
-                    <b>{message.name}</b>: {message.content}
-                  </ListGroup.Item>
-                )
-              })}
-            </ListGroup>
-          )}
-          <Card.Footer>
-            <Form
-              onSubmit={(event) => {
-                event.preventDefault();
-                let value = event.target[0].value
-                if(!value) {
-                  return;
-                }
-                console.log(event.target[0].value)
-                this.sendMessage(event.target[0].value);
-                event.target.reset()
+              maxHeight:"200px",
+              overflowY:"scroll",
+              border:"none",
+            }}
+          >
+            {chatMessages.map((message, i) => {
+              return(
+                <ListGroup.Item
+                  style={{backgroundColor: i % 2 === 0 ? "#ffffff" : "#ebebeb"}}
+                  key={i}>
+                  <b>{message.name}</b>: {message.content}
+                </ListGroup.Item>
+              )
+            })}
+          </ListGroup>
+        )}
+        <Card.Footer>
+          <Form
+            onSubmit={(event) => {
+              event.preventDefault();
+              let value = event.target[0].value
+              if(!value) {
+                return;
               }
-            }>
-              <InputGroup className="mb-3">
-                <Form.Control
-                  placeholder="Enter Message..."
-                  aria-describedby="submit-button"
-                />
-                <Button
-                  variant="primary"
-                  type="submit"
-                  id="submit-button">
-                  Send
-                </Button>
-              </InputGroup>
-            </Form>
-          </Card.Footer>
-        </Card>
-      </div>
+              console.log(event.target[0].value)
+              this.sendMessage(event.target[0].value);
+              event.target.reset()
+            }
+          }>
+            <InputGroup className="mb-3">
+              <Form.Control
+                placeholder="Enter Message..."
+                aria-describedby="submit-button"
+              />
+              <Button
+                variant="primary"
+                type="submit"
+                id="submit-button">
+                Send
+              </Button>
+            </InputGroup>
+          </Form>
+        </Card.Footer>
+      </Card>
     );
   }
 }
