@@ -43,13 +43,6 @@ div.card-title.h5 {
   padding: 5rem auto;
 }
 
-#gamecontainer {
-  height: 100%;
-  background-image: url("./img/coins.png");
-  background-size: cover;
-  padding: 5rem auto;
-}
-
 .cardsId {
   display: inline-flex;
   background-color: aqua;
@@ -71,19 +64,6 @@ html, body, #app, #root {
 .logo {
   width: 130px;
   height:130px;
-}
-
-.flex-vertical {
-  padding: 2rem;
-  height: calc(100% - 170px);
-  flex-direction: column;
-  display: flex;
-  justify-content: space-between;
-}
-
-.flex-horizontal {
-  display: flex;
-  justify-content: space-between;
 }
 
 .center {
@@ -130,11 +110,6 @@ html, body, #app, #root {
   justify-content: space-between;
 }
 
-.priceText {
-  width: 3.5rem;
-  text-align: center;
-}
-
 .resourceHeader {
   font-weight: bold;
   font-size: 1.1rem;
@@ -155,31 +130,10 @@ html, body, #app, #root {
   background-position: center;
 }
 
-.verti-flex {
-  padding: 2rem;
-  height: calc(100% - 170px);
-  flex-direction: column;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .chat-grow {
   flex-grow: 1;
 }
 
-.flexi-vertical {
-  padding: 2rem;
-  height: calc(100% - 170px);
-  flex-direction: column;
-  display: flex;
-  justify-content: space-between;
-}
-
-.flexi-horizontal {
-  display: flex;
-  justify-content: space-around;
-}
 
 #dashboard-middle {
   display: flex;
