@@ -79,11 +79,10 @@ class Aboutus extends React.Component {
             <Accordion.Header>Jim</Accordion.Header>
             <Accordion.Body>
               <Card bg="light" border="light" style={{ width: "30rem" }}>
-                <Card.Img variant="top" src="https://baconmockup.com/640/360" />
+                <Card.Img variant="top" src="../.image/Tahoe.jpg" />
                 <Card.Body>
                   <Card.Text>
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
+                    I like to code. 
                   </Card.Text>
                 </Card.Body>
               </Card>
