@@ -20,6 +20,7 @@ class ReadyUp extends React.Component {
 
             <Button
               onClick={() => this.props.startGame(this.context)}
+              
               variant="success">start game</Button>
           </Card.Body>
         </Card>
