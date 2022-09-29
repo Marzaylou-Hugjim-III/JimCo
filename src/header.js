@@ -1,7 +1,6 @@
 import React from "react";
 import { Nav, Navbar, NavDropdown, NavItem } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import AuthButtons from "./AuthButtons";
 import { Container } from "react-bootstrap";
 import logo from "./img/logo.png";
 
@@ -42,7 +41,6 @@ class Header extends React.Component {
               </Link>
             </NavItem>
           </NavDropdown>
-          <AuthButtons />
         </Nav>
       </Navbar>
     );
