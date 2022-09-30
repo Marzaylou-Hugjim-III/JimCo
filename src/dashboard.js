@@ -82,6 +82,7 @@ Dashboard.contextType = SocketContext
 
 class LobbyTable extends React.Component {
   render() {
+    const lobby = this.props.lobby;
     return (
       <Card className="panel" style={{ width: "18rem" }}>
         <Card.Body>
@@ -92,10 +93,11 @@ class LobbyTable extends React.Component {
                 <td>Name</td>
                 <td>Status</td>
               </tr>
-              {!!this.props.lobby && this.props.lobby.map(id => {
+              {!!lobby && lobby.map(lobbyPlayer => {
+                const { id, name } = lobbyPlayer
                 return (
-                  <tr key={id} >
-                    <td>{id}</td>
+                  <tr key={id} > 
+                    <td>{name}</td>
                     <td>Ready</td>
                   </tr>
                 )
