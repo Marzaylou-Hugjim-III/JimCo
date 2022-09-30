@@ -1,48 +1,47 @@
 import React from "react";
-import { Nav, Navbar, NavDropdown, NavItem } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { Container } from "react-bootstrap";
 import logo from "./img/logo.png";
 
 class Header extends React.Component {
   render() {
     return (
-      <Navbar bg="dark" variant="dark" id="navBar" className="mb-3" expand="lg">
-        <Container>
-          <Navbar.Brand id="appName">
+      <div
+        className="panel"
+        id="header">
+        <div>
+          <div id="appName">
             <img
               src={logo}
               alt="JimCo logo"
               className="logo d-inline-block align-top"
+              style={{
+                height:"4rem",
+                width:"4rem"
+              }}
             />
-          </Navbar.Brand>
-        </Container>
-
-        <Nav className="me-auto">
-          <NavDropdown title="Menu" menuVariant="dark">
-            <NavItem>
-              <Link to="/" className="nav-link">
-                Dashboard
-              </Link>
-            </NavItem>
-            <NavItem>
-              <Link to="/gameboard" className="nav-link">
-                Gameboard
-              </Link>
-            </NavItem>
-            <NavItem>
-              <Link to="/help" className="nav-link">
-                Help
-              </Link>
-            </NavItem>
-            <NavItem>
-              <Link to="/aboutus" className="nav-link">
-                About
-              </Link>
-            </NavItem>
-          </NavDropdown>
-        </Nav>
-      </Navbar>
+          </div>
+        </div>
+        <div>
+          <Link to="/" className="nav-link">
+            Dashboard
+          </Link>
+        </div>
+        <div>
+          <Link to="/gameboard" className="nav-link">
+            Gameboard
+          </Link>
+        </div>
+        <div>
+          <Link to="#" className="nav-link">
+            Help
+          </Link>
+        </div>
+        <div>
+          <Link to="#" className="nav-link">
+            About
+          </Link>
+        </div>
+      </div>
     );
   }
 }

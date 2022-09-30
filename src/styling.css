@@ -2,10 +2,50 @@
   box-sizing: border-box;
 }
 
-.cardsId {
-display: inline-flex;
-background-color: aqua;
+.panel {
+  background-color: #2028338f !important;
+  color: #eeeeee !important;
+  border: #eeeeee 2px solid !important;
+  border-radius: 0px !important;
+}
 
+div.card-title.h5 {
+  margin-bottom: 16px;
+}
+
+.chat-panel {
+  border-top: #eeeeee 2px solid !important;
+  border-bottom: #eeeeee 2px solid !important;
+}
+
+.chat-panel > *:first-child {
+  border-top: none !important;
+  border-radius: 0px !important;
+  background-color: #2028338f !important;
+  color: #eeeeee !important;
+}
+
+.chat-panel > * {
+  border-top: #eeeeee 2px solid !important;
+  border-radius: 0px !important;
+  background-color: #2028338f !important;
+  color: #eeeeee !important;
+}
+
+#header {
+  z-index: 1;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+#dashboard {
+  padding: 5rem auto;
+}
+
+.cardsId {
+  display: inline-flex;
+  background-color: aqua;
 }
 
 html, body, #app, #root {
@@ -13,20 +53,99 @@ html, body, #app, #root {
 }
 
 .headerCard {
-display: inline-block;
-
+  display: inline-block;
 }
 
-.navLinks{
-display: flex;  
-flex-direction: row;  
+.navLinks {
+  display: flex;  
+  flex-direction: row;  
 }
 
-.logo{
+.logo {
   width: 130px;
   height:130px;
 }
 
+.center {
+  align-self: center;
+  justify-content: center;
+}
+
+.chatbox {
+  width: 45rem;
+  height: 10rem !important;
+}
+
+.jimcoin {
+  transition: all 0.05s ease-in-out;
+  width: 200px;
+  height: 200px;
+}
+
+.jimcoin:hover {
+  width: 250px;
+  height: 250px;
+  rotate: 6deg;
+  cursor: pointer;
+}
+
+.jimcoin:active {
+  width: 230px;
+  height: 230px;
+}
+
+.upgrades-row-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buysell-row-flex {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.buysell-col-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.resourceHeader {
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.coins-background {
+  filter: blur(4px);
+  z-index: -1;
+  position: fixed;
+  left: -10px;
+  top: -10px;
+  display: block;
+  width: 102vw;
+  height: 102vh;
+  background-image: url("./img/coins.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.chat-grow {
+  flex-grow: 1;
+}
+
+
+#dashboard-middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+#dashboard-middle > * {
+  width: 26rem;
+}
 .btn.btn-primary{
 
   font-family: cursive;
@@ -49,7 +168,6 @@ flex-direction: row;
 }
 
 .btn.btn-success{
-
   font-family: cursive;
   color:black !important;
   background-color: rgb(249, 75, 110) !important;
@@ -64,6 +182,3 @@ flex-direction: row;
   transform: scale(.95);
   background-color: aqua;
 }
-/* .btn.btn-primary:active{
-  color: white;
-} */
